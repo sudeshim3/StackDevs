@@ -8,8 +8,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RestApiFactory {
 
-//    companion object {
-
         private val BASE_URL = "https://api.stackexchange.com/2.2/"
 
         operator fun invoke(): Api {
@@ -21,11 +19,9 @@ object RestApiFactory {
 
             val retrofit = Retrofit.Builder().baseUrl(BASE_URL)
                 .client(httpClient)
-//                .addCallAdapterFactory(CoroutineCallAdapterFactory())
+                .addCallAdapterFactory(CoroutineCallAdapterFactory())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
             return retrofit.create(Api::class.java)
         }
     }
-
-//}
