@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var data: List<UserObject>
     lateinit var userViewModel: UserViewModel
     lateinit var userAdapter: UserAdapter
+    lateinit var userAdapterWOPaging: UserAdapterWOPaging
     lateinit var userDao: StackUserDao
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -27,23 +28,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         userDatabase = UserDatabase.invoke(this);
         userDao = userDatabase.userDatabaseDao()
-        userViewModel = ViewModelProviders.of(this).get(UserViewModel::class.java)
-        userViewModel.init(userDao)
-        userAdapter = UserAdapter()
-        rv_user.layoutManager = LinearLayoutManager(applicationContext)
-
-        userViewModel.userList?.observe(this, Observer {
-            userAdapter.submitList(it)
-        })
-        rv_user.adapter = userAdapter
-
-        /*GlobalScope.launch {
-            val response: JsonObject = RestApiFactory().fetchTopUsers(1).await()
-
-            val type = object : TypeToken<List<UserObject>>() {}.type
-            data = Gson().fromJson<List<UserObject>>(response.getAsJsonArray("items"), type)
-            saveToDb(data)
-        }*/
+        setUpRecyclerWithPaging()
+//        setUpRecyclerWithoutPaging()
+        getUpdateFromServer()
 
         /*btn_getallUsers.setOnClickListener {
             GlobalScope.launch {
@@ -52,6 +39,39 @@ class MainActivity : AppCompatActivity() {
             }
 
         }*/
+    }
+
+    private fun getUpdateFromServer() {
+        GlobalScope.launch {
+            val response: JsonObject = RestApiFactory().fetchTopUsers(1, 100).await()
+
+            val type = object : TypeToken<List<UserObject>>() {}.type
+            data = Gson().fromJson<List<UserObject>>(response.getAsJsonArray("items"), type)
+            saveToDb(data)
+        }
+    }
+
+    private fun setUpRecyclerWithoutPaging() {
+        GlobalScope.launch {
+            userAdapterWOPaging = UserAdapterWOPaging(userDao.getAllUsers())
+        }.invokeOnCompletion {
+            runOnUiThread {
+                rv_user.adapter = userAdapterWOPaging
+                rv_user.layoutManager = LinearLayoutManager(applicationContext)
+            }
+        }
+    }
+
+    private fun setUpRecyclerWithPaging() {
+        userViewModel = ViewModelProviders.of(this).get(UserViewModel::class.java)
+        userViewModel.init(userDao)
+        userAdapter = UserAdapter()
+        rv_user.adapter = userAdapter
+        rv_user.layoutManager = LinearLayoutManager(applicationContext)
+
+        userViewModel.userList?.observe(this, Observer {
+            userAdapter.submitList(it)
+        })
     }
 
     private fun saveToDb(data: List<UserObject>) {

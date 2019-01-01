@@ -14,7 +14,7 @@ public interface StackUserDao {
     @Query("select * from stackusers")
     fun getAllUsers():List<UserObject>
 
-    @Query("SELECT * FROM stackusers")
+    @Query("SELECT * FROM stackusers ORDER BY reputation DESC")
     abstract fun getAllUsersPaged(): DataSource.Factory<Int, UserObject>
 
     @Transaction

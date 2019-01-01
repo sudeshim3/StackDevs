@@ -23,7 +23,7 @@ data class UserObject(
     var lastAccessDate: Int? = 999,
     @SerializedName("reputation_change_month")
     var reputationChangeMonth: Int? = 999,
-    var reputation: Int? = 999,
+    var reputation: Int,
     @SerializedName("creation_date")
     var creationDate: Int? = 999,
     @SerializedName("user_type")
@@ -47,11 +47,10 @@ data class UserObject(
             }
 
             override fun areContentsTheSame(@NonNull oldItem: UserObject, @NonNull newItem: UserObject): Boolean {
-                return true
+                return oldItem.reputation == newItem.reputation
             }
         }
     }
-
 
     /*override fun equals(other: Any?): Boolean {
         if(other == this)

@@ -13,6 +13,7 @@ interface Api {
 
     //    @GET("/2.2/users?page=1&order=desc&sort=reputation&site=stackoverflow")
     @GET("/2.2/users?site=stackoverflow")
-    fun fetchTopUsers(@Query("page") page: Int): Deferred<JsonObject>
+    fun fetchTopUsers(@Query("page") page: Int,
+                      @Query("pagesize") pageSize: Int): Deferred<JsonObject>
 
 }
