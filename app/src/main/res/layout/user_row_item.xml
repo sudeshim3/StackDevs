@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools" android:layout_marginHorizontal="3dp"
+        android:layout_marginTop="2dp"
+        app:cardCornerRadius="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="90dp">
+
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <TextView
+                android:id="@+id/txt_username"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/txt_lblReputation"
+                android:layout_marginRight="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/txt_location"
+                android:textSize="18sp"
+                android:textAllCaps="true"
+                android:text="name is very big that is why i"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:layout_marginLeft="12dp"
+                app:layout_constraintVertical_chainStyle="packed"
+                android:layout_marginBottom="8dp"/>
+
+        <TextView
+                android:id="@+id/txt_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="@id/txt_username"
+                android:textSize="12sp"
+                android:text="Bengaluru"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_username" android:layout_marginBottom="1dp"/>
+
+        <TextView
+                android:id="@+id/txt_lblReputation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintRight_toLeftOf="@id/txt_reputation"
+                app:layout_constraintTop_toTopOf="@id/txt_username"
+                app:layout_constraintBottom_toBottomOf="@+id/txt_username"
+                android:layout_marginRight="5dp"
+                android:textSize="19sp"
+                style="@style/Base.TextAppearance.AppCompat.Large"
+                android:text="Reputation: "/>
+
+        <TextView
+                android:id="@+id/txt_reputation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="663193"
+                android:textSize="15sp"
+                android:layout_marginRight="8dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/txt_lblReputation"
+                app:layout_constraintBottom_toBottomOf="@id/txt_lblReputation"/>
+
+        <TextView
+                android:id="@+id/txt_website"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                app:layout_constraintLeft_toLeftOf="@id/txt_lblReputation"
+                app:layout_constraintStart_toStartOf="@id/txt_lblReputation"
+                app:layout_constraintBottom_toBottomOf="@+id/txt_location"
+                app:layout_constraintBaseline_toBaselineOf="@id/txt_location"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                android:autoLink="web"
+                android:linksClickable="true"
+                android:maxLines="1"
+                android:text="www.google.com/falcon.developers"/>
+    </android.support.constraint.ConstraintLayout>
+
+
+</android.support.v7.widget.CardView>
