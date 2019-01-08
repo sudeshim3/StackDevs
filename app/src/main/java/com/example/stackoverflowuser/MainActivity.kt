@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import com.example.stackoverflowuser.Models.UserObject
 import com.example.stackoverflowuser.Network.RestApiFactory
+import com.example.stackoverflowuser.R.id.rv_user
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
@@ -48,6 +49,9 @@ class MainActivity : AppCompatActivity() {
             val type = object : TypeToken<List<UserObject>>() {}.type
             data = Gson().fromJson<List<UserObject>>(response.getAsJsonArray("items"), type)
             saveToDb(data)
+
+
+
         }
     }
 

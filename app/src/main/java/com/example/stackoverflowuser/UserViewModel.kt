@@ -12,8 +12,9 @@ class UserViewModel: ViewModel() {
 
     fun init(userDao: StackUserDao) {
         val pagedListConfig = PagedList.Config.Builder().setEnablePlaceholders(true)
-//            .setPrefetchDistance(2)
-            .setPageSize(10).build()
+            .setPrefetchDistance(2)
+            .setEnablePlaceholders(false)
+            .setPageSize(3).build()
 
         userList = LivePagedListBuilder(userDao.getAllUsersPaged(), pagedListConfig)
             .build()
