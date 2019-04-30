@@ -12,7 +12,7 @@ object RestApiFactory {
 
         operator fun invoke(): Api {
             val logging = HttpLoggingInterceptor()
-            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+            logging.level = HttpLoggingInterceptor.Level.BODY
 
             val httpClient = OkHttpClient.Builder()
                 .addInterceptor(logging).build()

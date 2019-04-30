@@ -16,4 +16,7 @@ interface Api {
     fun fetchTopUsers(@Query("page") page: Int,
                       @Query("pagesize") pageSize: Int): Deferred<JsonObject>
 
+    @GET("/2.2/users?site=stackoverflow")
+    fun fetchTopUsers(@Query("page") page: Int): Deferred<JsonObject>
+
 }

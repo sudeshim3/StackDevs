@@ -1,8 +1,8 @@
 package com.example.stackoverflowuser
 
-import android.arch.persistence.room.Database
-import android.arch.persistence.room.Room
-import android.arch.persistence.room.RoomDatabase
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
 import android.content.Context
 import com.example.stackoverflowuser.Models.UserObject
 
@@ -11,6 +11,7 @@ abstract class UserDatabase: RoomDatabase() {
     abstract fun userDatabaseDao(): StackUserDao
 
     companion object {
+        final val dbName: String = "data"
         @Volatile private var instance: UserDatabase? = null
         private var LOCK = Any()
 
@@ -19,7 +20,7 @@ abstract class UserDatabase: RoomDatabase() {
         }
 
         private fun buildDatabase(context: Context) =
-                Room.databaseBuilder(context.applicationContext, UserDatabase::class.java, "data")
+                Room.databaseBuilder(context.applicationContext, UserDatabase::class.java, dbName)
                     .fallbackToDestructiveMigration()
                     .build()
     }

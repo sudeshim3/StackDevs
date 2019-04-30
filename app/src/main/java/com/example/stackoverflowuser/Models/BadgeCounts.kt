@@ -1,10 +1,10 @@
 package com.example.stackoverflowuser.Models
 
-import android.arch.persistence.room.Entity
+import androidx.room.Entity
 
 @Entity
 data class BadgeCounts(
-    var bronze: Int,
-    var silver: Int,
-    var gold: Int
+    var bronze: Int?,
+    var silver: Int?,
+    var gold: Int?
 )

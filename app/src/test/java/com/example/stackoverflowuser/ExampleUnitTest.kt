@@ -14,4 +14,10 @@ class ExampleUnitTest {
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)
     }
+
+    @Test
+    fun listCannotBeNull() {
+        var flavours: List<String> = listOf("mango", "apple", "orange")
+        flavours.forEach { println(it) }
+    }
 }

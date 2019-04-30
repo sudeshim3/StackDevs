@@ -1,24 +1,36 @@
 package com.example.stackoverflowuser
 
-import android.arch.lifecycle.LiveData
-import android.arch.paging.DataSource
-import android.arch.persistence.room.*
+import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
+import androidx.room.*
 import com.example.stackoverflowuser.Models.UserObject
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 @Dao
 public interface StackUserDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun upsert(userObject: UserObject):Long
+    suspend fun upsert(userObject: UserObject): Long
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(vararg userList: UserObject)
 
     @Query("select * from stackusers")
-    fun getAllUsers():List<UserObject>
+    suspend fun getAllUsers(): List<UserObject>
 
-    @Query("SELECT * FROM stackusers ORDER BY reputation DESC")
-    abstract fun getAllUsersPaged(): DataSource.Factory<Int, UserObject>
+    @Query("SELECT COUNT(*) FROM stackusers")
+    suspend fun getCount(): Int
+
+//    @Query("SELECT * FROM stackusers ORDER BY reputation DESC")
+//    suspend fun getAllUsersPaged(): DataSource.Factory<Int, UserObject>
 
     @Transaction
-    open fun insertUser(userObject: UserObject) {
-        upsert(userObject)
+    suspend fun insertUser(userObject: List<UserObject>) {
+        GlobalScope.launch {
+            userObject.forEach {
+                upsert(it)
+            }
+        }
     }
 }
