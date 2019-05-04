@@ -1,83 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools" android:layout_marginHorizontal="3dp"
-        android:layout_marginTop="2dp"
-        app:cardCornerRadius="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="90dp">
+        xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+        android:layout_height="88dp" android:layout_marginTop="2dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/profile_img"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="15dp"
+            app:placeholderImage="@color/bronze"
+            app:roundAsCircle="true"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-        <TextView
-                android:id="@+id/txt_username"
-                android:layout_width="0dp"
+    <com.example.stackoverflowuser.CustomTextView
+            android:id="@+id/txt_username"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toRightOf="@id/profile_img"
+            app:layout_constraintTop_toTopOf="@id/profile_img"
+            app:layout_constraintRight_toLeftOf="@id/txt_reputation"
+            android:layout_marginRight="8dp"
+            android:textSize="16sp"
+            android:text="name is very big that is why isdfsf"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:layout_marginLeft="12dp"
+            app:layout_constraintVertical_chainStyle="packed"
+            android:layout_marginBottom="8dp"/>
+
+    <TextView
+            android:id="@+id/txt_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="@id/txt_username"
+            android:textSize="14sp"
+            android:text="Bengaluru"
+            android:layout_marginTop="1dp"
+            app:layout_constraintTop_toBottomOf="@+id/txt_username"/>
+
+    <!--<TextView
+            android:id="@+id/txt_lblReputation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toLeftOf="@id/txt_reputation"
+            app:layout_constraintTop_toTopOf="@id/txt_username"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_username"
+            android:layout_marginRight="5dp"
+            android:textSize="19sp"
+            style="@style/Base.TextAppearance.AppCompat.Large"
+            android:text="Reputation: "/>-->
+
+    <TextView
+            android:id="@+id/txt_reputation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="663193"
+            android:textSize="15sp"
+            android:layout_marginRight="8dp"
+            app:layout_constraintLeft_toRightOf="@id/txt_username"
+            app:layout_constraintBaseline_toBaselineOf="@id/txt_username"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+    <include
+            layout="@layout/line_divider"
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <LinearLayout
+            android:id="@+id/badge_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintStart_toStartOf="@id/txt_username"
+            android:orientation="horizontal">
+        <include
                 android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginRight="8dp"
-                android:textSize="18sp"
-                android:textAllCaps="true"
-                android:text="name is very big that is why i"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:layout_marginLeft="12dp"
-                app:layout_constraintVertical_chainStyle="packed"
-                android:layout_marginBottom="8dp"/>
-
-        <TextView
-                android:id="@+id/txt_location"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="@id/txt_username"
-                android:textSize="12sp"
-                android:text="Bengaluru"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_username" android:layout_marginBottom="1dp"/>
+                android:id="@+id/badge_gold"
+                layout="@layout/badge_count"/>
 
-        <TextView
-                android:id="@+id/txt_lblReputation"
+        <include
+                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintRight_toLeftOf="@id/txt_reputation"
-                app:layout_constraintTop_toTopOf="@id/txt_username"
-                app:layout_constraintBottom_toBottomOf="@+id/txt_username"
-                android:layout_marginRight="5dp"
-                android:textSize="19sp"
-                style="@style/Base.TextAppearance.AppCompat.Large"
-                android:text="Reputation: "/>
+                android:id="@+id/badge_silver"
+                android:layout_marginLeft="8dp"
+                layout="@layout/badge_count"/>
 
-        <TextView
-                android:id="@+id/txt_reputation"
+        <include
+                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="663193"
-                android:textSize="15sp"
-                android:layout_marginRight="8dp"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@id/txt_lblReputation"
-                app:layout_constraintBottom_toBottomOf="@id/txt_lblReputation"/>
-
-        <TextView
-                android:id="@+id/txt_website"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                app:layout_constraintLeft_toLeftOf="@id/txt_lblReputation"
-                app:layout_constraintStart_toStartOf="@id/txt_lblReputation"
-                app:layout_constraintBottom_toBottomOf="@+id/txt_location"
-                app:layout_constraintBaseline_toBaselineOf="@id/txt_location"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
-                android:autoLink="web"
-                android:linksClickable="true"
-                android:maxLines="1"
-                android:text="www.google.com/falcon.developers"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                android:id="@+id/badge_bronze"
+                android:layout_marginLeft="8dp"
+                layout="@layout/badge_count"/>
+    </LinearLayout>
 
 
-</androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

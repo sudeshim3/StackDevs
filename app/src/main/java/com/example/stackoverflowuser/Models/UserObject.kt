@@ -35,7 +35,7 @@ data class UserObject(
     var websiteUrl: String? = "",
     var link: String? = "",
     @SerializedName("profile_image")
-    var profileImage: String? = "",
+    var profileUri: String? = "",
     @SerializedName("display_name")
     var displayName: String? = ""
 ) {

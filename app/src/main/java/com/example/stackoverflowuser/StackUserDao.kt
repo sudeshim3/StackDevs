@@ -22,6 +22,9 @@ public interface StackUserDao {
     @Query("SELECT COUNT(*) FROM stackusers")
     suspend fun getCount(): Int
 
+    @Query("SELECT * FROM stackusers ORDER BY badge_gold DESC")
+    suspend fun getAllUsersByGold(): List<UserObject>
+
 //    @Query("SELECT * FROM stackusers ORDER BY reputation DESC")
 //    suspend fun getAllUsersPaged(): DataSource.Factory<Int, UserObject>
 

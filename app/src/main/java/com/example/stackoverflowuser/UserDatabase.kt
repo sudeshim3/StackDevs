@@ -11,7 +11,7 @@ abstract class UserDatabase: RoomDatabase() {
     abstract fun userDatabaseDao(): StackUserDao
 
     companion object {
-        final val dbName: String = "data"
+        final val dbName: String = "stackuserdb"
         @Volatile private var instance: UserDatabase? = null
         private var LOCK = Any()
 

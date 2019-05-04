@@ -1,17 +1,15 @@
 package com.example.stackoverflowuser
 
-import android.animation.Animator
+import android.graphics.Color
 import androidx.paging.PagedListAdapter
-import android.content.Intent
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewAnimationUtils
 import android.view.ViewGroup
-import android.widget.TextView
 import com.example.stackoverflowuser.Models.UserObject
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.badge_count.view.*
 import kotlinx.android.synthetic.main.user_row_item.view.*
+
 
 class UserAdapter(var row_item: Int) :
     PagedListAdapter<UserObject, UserAdapter.UserViewHolder>(UserObject.DIFF_CALLBACK) {
@@ -28,27 +26,39 @@ class UserAdapter(var row_item: Int) :
         return UserViewHolder(view)
     }
 
-    class UserViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+   companion object {
 
-        /*var txt_userName: TextView
-        var txt_userLocation: TextView
-        var txt_website: TextView
-        var txt_reputation: TextView*/
+   }  class UserViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-
+        val gold_badge = itemView.badge_gold
+        val badge_silver = itemView.badge_silver
+        val badge_bronze = itemView.badge_bronze
         init {
-            /*txt_userName = itemView.findViewById(R.id.txt_username)
-            txt_userLocation = itemView.findViewById(R.id.txt_location)
-            txt_website = itemView.findViewById(R.id.txt_website)
-            txt_reputation = itemView.findViewById(R.id.txt_reputation)*/
 
+            gold_badge.img_badge.setColorFilter(Constants.goldColor)
+            badge_silver.img_badge.setColorFilter(Constants.silverColor)
+            badge_bronze.img_badge.setColorFilter(Constants.bronzeColor)
         }
 
         fun bindTo(user: UserObject) {
             itemView.txt_username.text = user.displayName
             itemView.txt_location.text = user.location
-            itemView.txt_website.text = user.websiteUrl
+            itemView.profile_img.setImageURI(user.profileUri)
             itemView.txt_reputation.text = user.reputation.toString()
+            user.badgeCounts?.gold?.let {
+                if(it > 0)
+                    gold_badge.txt_badge.text = it.toString()
+            }
+
+            user.badgeCounts?.silver?.let {
+                if(it > 0)
+                    badge_silver.txt_badge.text = it.toString()
+            }
+
+            user.badgeCounts?.bronze?.let {
+                if(it > 0)
+                    badge_bronze.txt_badge.text = it.toString()
+            }
         }
     }
 }
