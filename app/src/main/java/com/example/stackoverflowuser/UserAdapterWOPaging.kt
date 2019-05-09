@@ -24,4 +24,9 @@ class UserAdapterWOPaging(var allUsers: List<UserObject>) : RecyclerView.Adapter
         holder.bindTo(allUsers.get(position))
     }
 
+    fun setData(users: List<UserObject>) {
+        allUsers = users
+        notifyDataSetChanged()
+    }
+
 }

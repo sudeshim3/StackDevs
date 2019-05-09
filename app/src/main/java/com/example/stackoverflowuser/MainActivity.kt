@@ -4,15 +4,21 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.widget.Toast
 import com.example.stackoverflowuser.Models.UserObject
 import com.example.stackoverflowuser.Network.RestApiFactory
 import com.example.stackoverflowuser.R.id.rv_user
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
+import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,8 +35,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         userDatabase = UserDatabase.invoke(this);
         userDao = userDatabase.userDatabaseDao()
-        setUpRecyclerWithPaging()
-//        setUpRecyclerWithoutPaging()
+//        setUpRecyclerWithPaging()
+        setUpRecyclerWithoutPaging()
         getUpdateFromServer()
 
         /*btn_getallUsers.setOnClickListener {
@@ -43,7 +49,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getUpdateFromServer() {
-        GlobalScope.launch {
+        /*GlobalScope.launch {
             val response: JsonObject = RestApiFactory().fetchTopUsers(1, 100).await()
 
             val type = object : TypeToken<List<UserObject>>() {}.type
@@ -52,16 +58,36 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        }
+        }*/
+        progress.visible()
+        RestApiFactory().fetchTopUsers(1, 100).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ result ->
+                val type = object : TypeToken<List<UserObject>>() {}.type
+                data = Gson().fromJson<List<UserObject>>(result.getAsJsonArray("items"), type)
+
+            }, {error ->
+                toast("Request TimeOut! Please Try again")
+                println(error.localizedMessage)
+            },{
+                userAdapterWOPaging.setData(data)
+                progress.hide()
+            },{
+
+            })
     }
 
     private fun setUpRecyclerWithoutPaging() {
         GlobalScope.launch {
-            userAdapterWOPaging = UserAdapterWOPaging(userDao.getAllUsers())
+//            userAdapterWOPaging = UserAdapterWOPaging(userDao.getAllUsers())
+            userAdapterWOPaging = UserAdapterWOPaging(emptyList())
         }.invokeOnCompletion {
             runOnUiThread {
                 rv_user.adapter = userAdapterWOPaging
-                rv_user.layoutManager = LinearLayoutManager(applicationContext)
+                val layoutManager = LinearLayoutManager(applicationContext)
+                rv_user.layoutManager = layoutManager
+                val lineDecoration = DividerItemDecoration(applicationContext, layoutManager.orientation)
+                rv_user.addItemDecoration(lineDecoration)
             }
         }
     }

@@ -3,6 +3,7 @@ package com.example.stackoverflowuser.Network
 import com.example.stackoverflowuser.Models.UserObject
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import io.reactivex.Observable
 import kotlinx.coroutines.Deferred
 import org.json.JSONObject
 import retrofit2.Call
@@ -14,6 +15,6 @@ interface Api {
     //    @GET("/2.2/users?page=1&order=desc&sort=reputation&site=stackoverflow")
     @GET("/2.2/users?site=stackoverflow")
     fun fetchTopUsers(@Query("page") page: Int,
-                      @Query("pagesize") pageSize: Int): Deferred<JsonObject>
+                      @Query("pagesize") pageSize: Int): Observable<JsonObject>
 
 }
