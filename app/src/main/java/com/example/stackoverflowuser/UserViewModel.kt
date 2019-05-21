@@ -1,5 +1,6 @@
 package com.example.stackoverflowuser
 
+import android.os.Bundle
 import android.renderscript.Sampler
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,13 +9,20 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.example.stackoverflowuser.Models.UserObject
+import com.example.stackoverflowuser.Util.SingleLiveEvent
+import com.example.stackoverflowuser.Util.singleArgViewModelFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.util.concurrent.CompletableFuture
+import kotlin.reflect.KClass
 
-class UserViewModel : ViewModel() {
+class UserViewModel(private val repository: UserRepository) : ViewModel() {
+
+    companion object {
+        val FACTORY = singleArgViewModelFactory(::UserViewModel)
+    }
 
     var userList: LiveData<PagedList<UserObject>>? = null
     lateinit var userDatabase: UserDatabase
@@ -28,12 +36,16 @@ class UserViewModel : ViewModel() {
     val spinner: LiveData<Boolean>
         get() = _spinner
 
+    val uiEventLiveData = SingleLiveEvent<Pair<KClass<*>, Bundle>>()
+
+    val users = repository.users
+
     fun init(userDao: StackUserDao) {
         val pagedListConfig = PagedList.Config.Builder().setEnablePlaceholders(true)
             .setPrefetchDistance(2)
             .setEnablePlaceholders(false)
             .setPageSize(3).build()
-        fooAsyc()
+//        fooAsyc()
 //        userList = LivePagedListBuilder(userDao.getAllUsersPaged(), pagedListConfig)
 //            .build()
     }
@@ -52,6 +64,8 @@ class UserViewModel : ViewModel() {
     }
 
 
+
+
     private fun saveToDb(data: List<UserObject>) {
 
         GlobalScope.launch(Dispatchers.IO) {
@@ -59,7 +73,15 @@ class UserViewModel : ViewModel() {
         }
     }
 
-    fun fooAsyc(): CompletableFuture<UserObject> = CompletableFuture.supplyAsync { }
+    fun fetchData() {
+        launchDataLoad {
+            repository.fetchStackUsers()
+        }
+    }
 
+    /*
+*val activityToStart = MutableLiveData<Pair<KClass<*>, Bundle?>>()
+This allows you to check the class of Activity started, and the data passed in the Bundle. Then, in your Activity, you can add this code:
 
+ *  */
 }

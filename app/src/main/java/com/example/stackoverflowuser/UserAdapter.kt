@@ -6,13 +6,15 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.NonNull
+import androidx.recyclerview.widget.DiffUtil
 import com.example.stackoverflowuser.Models.UserObject
 import kotlinx.android.synthetic.main.badge_count.view.*
 import kotlinx.android.synthetic.main.user_row_item.view.*
 
 
 class UserAdapter(var row_item: Int) :
-    PagedListAdapter<UserObject, UserAdapter.UserViewHolder>(UserObject.DIFF_CALLBACK) {
+    PagedListAdapter<UserObject, UserAdapter.UserViewHolder>(DIFF_CALLBACK) {
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         val user = getItem(position)
@@ -26,18 +28,34 @@ class UserAdapter(var row_item: Int) :
         return UserViewHolder(view)
     }
 
-   companion object {
+    companion object {
+         var DIFF_CALLBACK: DiffUtil.ItemCallback<UserObject> = object : DiffUtil.ItemCallback<UserObject>() {
+             override fun areItemsTheSame(@NonNull oldItem: UserObject, @NonNull newItem: UserObject): Boolean {
+                 return oldItem.userId == newItem.userId
+             }
 
-   }  class UserViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+             override fun areContentsTheSame(@NonNull oldItem: UserObject, @NonNull newItem: UserObject): Boolean {
+                 return oldItem.reputation == newItem.reputation
+             }
+         }
+     }
+    class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        val gold_badge = itemView.badge_gold
-        val badge_silver = itemView.badge_silver
-        val badge_bronze = itemView.badge_bronze
+        val gold_badge = this.itemView.badge_gold
+        val badge_silver = this.itemView.badge_silver
+        val badge_bronze = this.itemView.badge_bronze
         init {
 
             gold_badge.img_badge.setColorFilter(Constants.goldColor)
             badge_silver.img_badge.setColorFilter(Constants.silverColor)
             badge_bronze.img_badge.setColorFilter(Constants.bronzeColor)
+            setOnClick()
+        }
+
+        private fun setOnClick() {
+            itemView.setOnClickListener {
+                 adapterPosition
+            }
         }
 
         fun bindTo(user: UserObject) {
@@ -60,6 +78,7 @@ class UserAdapter(var row_item: Int) :
                     badge_bronze.txt_badge.text = it.toString()
             }
         }
+
     }
 }
 

@@ -1,5 +1,7 @@
 package com.example.stackoverflowuser.Models
 
+import android.os.Parcel
+import android.os.Parcelable
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -11,7 +13,7 @@ import com.google.gson.annotations.SerializedName
 data class UserObject(
     @PrimaryKey(autoGenerate = false)
     @SerializedName("user_id")
-    var userId: Int? = 999,
+    var userId: String = "",
     @SerializedName("badge_counts")
     @Embedded(prefix = "badge_")
     var badgeCounts: BadgeCounts?,
@@ -40,7 +42,7 @@ data class UserObject(
     var displayName: String? = ""
 ) {
 
-    companion object {
+    /*companion object {
         var DIFF_CALLBACK: DiffUtil.ItemCallback<UserObject> = object : DiffUtil.ItemCallback<UserObject>() {
             override fun areItemsTheSame(@NonNull oldItem: UserObject, @NonNull newItem: UserObject): Boolean {
                 return oldItem.userId == newItem.userId
@@ -50,7 +52,7 @@ data class UserObject(
                 return oldItem.reputation == newItem.reputation
             }
         }
-    }
+    }*/
 
     /*override fun equals(other: Any?): Boolean {
         if(other == this)
