@@ -75,7 +75,8 @@ class UserViewModel(private val repository: UserRepository) : ViewModel() {
 
     fun fetchData() {
         launchDataLoad {
-            repository.fetchStackUsers()
+//            repository.fetchStackUsers()
+            repository.fetchReputation()
         }
     }
 

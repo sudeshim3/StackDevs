@@ -10,6 +10,7 @@ import com.example.stackoverflowuser.Models.UserObject
 import android.view.animation.AnimationUtils
 import kotlinx.android.synthetic.main.badge_count.view.*
 import kotlinx.android.synthetic.main.user_row_item.view.*
+import java.text.DecimalFormat
 
 
 class UserAdapterWOPaging(
@@ -21,6 +22,7 @@ class UserAdapterWOPaging(
     var lastPosition: Int = 0
     var userList: List<UserObject> = mutableListOf()
     var onItemClick: ((UserObject) -> Unit)? = null
+    val formatter = DecimalFormat("#,##,##0")
 
     fun setData(data: List<UserObject>) {
         userList = data
@@ -74,7 +76,8 @@ class UserAdapterWOPaging(
             itemView.txt_username.text = user.displayName
             itemView.txt_location.text = user.location
             itemView.profile_img.setImageURI(user.profileUri)
-            itemView.txt_reputation.text = user.reputation.toString()
+
+            itemView.txt_reputation.text = formatter.format(user.reputation)
             user.badgeCounts?.gold?.let {
                 if (it > 0)
                     gold_badge.txt_badge.text = it.toString()

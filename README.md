@@ -1,15 +1,6 @@
 
-```
-private val greeting: TextView
-get() = findViewById(R.id.greeting)
+## Libraries
 
-NOTE: findViewById is called everytime you use it
-
-ALTERNATIVE
-private val greeting by lazy {
-  findViewById<TextView>(R.id.txt_greet)
-}
-```
 ### Dagger   [![Dagger][dagger-svg]][dagger-maven]
 ### Retrofit [![Retrofit Maven][retrofit-svg]][retofit-maven]
 ### Gson     [![Gson Maven][gson-svg]][gson-maven]
@@ -24,7 +15,4 @@ private val greeting by lazy {
 
 [gson-svg]:https://maven-badges.herokuapp.com/maven-central/com.google.code.gson/gson/badge.svg
 [gson-maven]:https://search.maven.org/artifact/com.google.code.gson/gson-parent/
-
-
-https://maven-badges.herokuapp.com/maven-central/com.google.code.gson/gson/badge.svg
 
